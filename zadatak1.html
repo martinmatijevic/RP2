@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="hr">
+<head>
+    <meta charset="utf-8">
+    <title>The HTML5 Herald</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="SitePoint">
+    <link rel="stylesheet" href="css/styles.css?v=1.0">
+</head>
+
+<body>
+    <h1><b>Testform</b></h1>
+    <form action="zadatak1.php" method="get">
+        <p>
+            Name:
+            <input type="text" name="name" id="name" />
+        </p>
+        <p>
+            Password:
+            <input type="password" name="password" id="password" />
+        </p>
+        <p>
+            Gender:
+            <input type="radio" name="gender" id="male" />Male
+            <input type="radio" name="gender" id="female" />Female
+        </p>
+        <p>
+            Continent:
+            <select name="continent" id="continent">
+                <option disabled selected value="NAN">Please select...</option>
+                <option value="Asia">Asia</option>
+                <option value="Europe">Europe</option>
+                <option value="Australia">Australia</option>
+                <option value="NAmerica">North America</option>
+                <option value="SAmerica">South America</option>
+                <option value="Africa">Africa</option>
+            </select>
+        </p>     
+        <p>
+            Meal:
+            <input type="checkbox" name="meal" id="breakfast">breakfast
+            <input type="checkbox" name="meal" id="breakfast">lunch
+            <input type="checkbox" name="meal" id="breakfast">dinner
+        </p>
+        <p>
+            Remark:
+            <textarea placeholder="Any aditional info?" name="remark" id="remark" cols="30" rows="10"></textarea>
+        </p>
+        <br>
+        <p>
+            <button type="submit">Send</button>
+            <button type="reset">Cancel</button>
+        </p>
+    </form>  
+</body>
+</html>
