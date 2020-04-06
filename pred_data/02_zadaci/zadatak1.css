@@ -1,0 +1,43 @@
+body { font-family: Verdana; }
+
+form h2, #lastrow
+{
+	background-color: #dddddd;
+	border-top: solid 1px #888888;
+	border-bottom: solid 2px #888888;
+	padding: 5px;
+}
+
+#lastrow { text-align: right; }
+
+form
+{
+	width: 660px;
+}
+
+form dl dt 
+{
+	display: inline-block;
+	width: 180px;
+	padding:  0 0 0 10px;
+
+	margin-top: 10px;
+}
+
+form dl dd 
+{
+	vertical-align: top;
+	display: inline-block;
+	width: 370px;
+	margin-top: 10px;
+}
+
+form dl dd label 
+{
+	display: block;
+}
+
+form dl dt.full 
+{
+	width: 660px;
+}

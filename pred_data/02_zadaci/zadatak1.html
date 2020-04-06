@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Testform</title>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" type="text/css" href="zadatak1.css" />
+</head>
+<body>
+	<form action="processForm.php" method="get">
+		<h2>Testform</h2>
+
+		<dl>
+			<dt><label for="name">Name</label></dt>
+			<dd><input type="text" id="name" name="name" value="" /></dd>
+
+			<dt><label for="pass">Password</label></dt>
+			<dd><input type="password" id="pass" name="pass" value="" /></dd>
+
+			<dt><label>Gender</label></dt>
+			<dd>
+				<label for="gender_male"><input type="radio" name="gender" id="gender_male" value="male" />Male</label>
+				<label for="gender_female"><input type="radio" name="gender" id="gender_female" value="female" checked />Female</label>
+			</dd>
+
+			<dt><label for="cont">Continent</label></dt>
+			<dd>
+				<select name="cont" id="cont">
+					<option selected="selected" disabled="disabled">Please select...</option>
+					<option value="1">Africa</option>
+					<option value="2">America</option>
+					<option value="3">Antarctica</option>
+					<option value="4">Asia</option>
+					<option value="5">Europe</option>
+					<option value="6">Oceania</option>
+				</select>
+			</dd>
+
+			<dt><label>Meals</label></dt>
+			<dd>
+				<label for="meal0"><input type="checkbox" name="meals" id="meal0" value="breakfast" />breakfast</label>
+				<label for="meal1"><input type="checkbox" name="meals" id="meal1" value="lunch" checked />lunch</label>
+				<label for="meal2"><input type="checkbox" name="meals" id="meal2" value="dinner"checked />dinner</label>
+			</dd>
+
+			<dt><label for="remark">Remark</label></dt>
+			<dd><textarea name="remark" id="remark" rows="5" cols="40"></textarea></dd>
+
+			<dt class="full" id="lastrow">
+				<input type="reset" id="btnReset" name="btnReset" value="Reset" />
+				<input type="submit" id="btnSubmit" name="btnSubmit" value="Send" />
+			</dt>
+		</dl>
+	</form>
+
+</body>
+</html>

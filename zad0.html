@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+ <html lang="hr">
+ <head>
+ <script>
+ function zbroji()
+ {
+ var broj1 = document.getElementById( "broj1" );
+ var broj2 = document.getElementById( "broj2" );
+var rezultat = document.getElementById( "rezultat" );
+
+ var br1 = new Number( broj1.value );
+ var br2 = new Number( broj2.value );
+
+ rezultat.value = br1 + br2;
+ }
+ </script>
+ </head>
+
+ <body>
+ <h3>Zbrajanje</h3>
+
+ <form>
+ <p>
+ <input type="text" id="broj1" />
+ <input type="button" id="plus" value="+" onclick="zbroji()" />
+ <input type="text" id="broj2" /> = <input type="text" id="rezultat" />
+ </p>
+ </form>
+ </body>
+ </html>
