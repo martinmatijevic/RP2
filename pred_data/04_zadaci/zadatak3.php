@@ -9,7 +9,7 @@
 		function my_sort( &$niz ) // PAZI: & je nužan!
 		{
 			$n = count( $niz );
-
+			
 			for( $i = 0; $i < $n; ++$i )
 				for( $j = $i+1; $j < $n; ++$j )
 					if( strcmp( $niz[$i], $niz[$j] ) > 0 )
@@ -28,14 +28,14 @@
 			// .. Generiraj i-ti string
 			$str = '';
 			for( $j = 0; $j < $str_len; ++$j )
-				$str .= chr( rand( ord('a'), ord('z') )); 
+				$str .= chr( rand(0, 25) + ord('a') ); // Zalijepi slučajno odabrano malo slovo; ord('a')=97=ascii vrijednost od a. Još bolje: chr( rand( ord('a'), ord('z') ) ).
 
 			$polje[$i] = $str;
 		}
 	?>
 
 	<p>
-		Niz prije sortiranja:
+		Niz prije sortiranja: 
 		<?php
 			for( $i = 0; $i < $n; ++$i )
 				echo $polje[$i] . ' ';
@@ -45,10 +45,10 @@
 	<?php
 		// Sortiranje
 		my_sort( $polje );
-	?>
+	?>	
 
 	<p>
-		Niz nakon sortiranja:
+		Niz nakon sortiranja: 
 		<?php
 			for( $i = 0; $i < $n; ++$i )
 				echo $polje[$i] . ' ';
@@ -56,4 +56,4 @@
 	</p>
 
 </body>
-</html>
+</html> 
