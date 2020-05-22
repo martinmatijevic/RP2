@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8" />
+    <title>Zadatak 6</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+
+<p id="koordinate"></p>
+<p id="klik"></p>
+<button id="btn">Ulovi me!</button>
+<br />
+
+<script>
+$( document ).ready( function() 
+{
+	$( "html" ).css( "height", "100%" );
+	$( "body" ).css( "min-height", "100%" );
+
+	var body_H = $( "body" ).height(), body_W = $( "body" ).width();
+
+	$( "body" )
+		.on( "mousemove", function( event ) 
+		{
+			$( "#koordinate" ).html( "(" + event.pageX + ", " + event.pageY + ")" );
+		} );
+
+	$( "body" )
+		.on( "mousedown", function( event ) 
+		{
+			var koji = null;
+			if( event.button === 0 )
+				koji = "Lijevi";
+            else if( event.button === 1 )
+                koji = "Srednji";
+            else if( event.button === 2 )
+                koji = "Desni";
+            else
+            	koji = "Ne znam koji";
+
+			$( "#klik" ).append( koji + " gumb miša je pritisnut.<br />" );
+		} );
+
+	$( "#btn" )
+		.css( "position", "absolute" )
+		.on( "mouseover", function() 
+		{
+			$(this)
+				.css( "left", Math.floor( Math.random() * body_W ) )
+				.css( "top", Math.floor( Math.random() * body_H ) );
+		} );
+
+} );
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Zadatak 3</title>
+</head>
+<body>
+	<script>
+var mj = ["siječanj", "veljača", "ožujak", "travanj", "svibanj", "lipanj", "srpanj", "kolovoz", "rujan", "listopad", "studeni", "prosinac"];
+
+var t = new Date();
+
+document.write( "<h1>Datum: " + t.getDate() + ". " + mj[t.getMonth()] + " " + t.getFullYear() + ".</h1>" );
+document.write( "<h1>Vrijeme: " + t.getHours() + "h " + t.getMinutes() + "min " + t.getSeconds()  + "s </h1>" );
+
+var h = t.getHours();
+if( h < 12 )
+	document.write( "<h1>Dobro jutro!</h1>" );
+else if( h < 18 )
+	document.write( "<h1>Dobar dan!</h1>" );
+else
+	document.write( "<h1>Dobra večer!</h1>" );
+	</script>
+
+</body>
+</html>

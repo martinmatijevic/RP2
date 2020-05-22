@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Zadatak 4</title>
+</head>
+<body>
+	<script>
+var rijec = prompt( "Unesite neku riječ." ); 
+
+// Rekurzivna funkcija za ispis podnizova riječi.
+function rek( depth, podniz )
+{
+	// Uoči: rek vidi globalnu varijablu rijec.
+	if( depth == rijec.length )
+	{
+		document.write( podniz + " " );
+		return;
+	}
+
+	// Nastavi niz tako da ne uzmeš rijec[depth]
+	rek( depth+1, podniz );
+
+	// Nastavi niz tako da uzmeš rijec[depth]
+	rek( depth+1, podniz+rijec[depth] );
+}
+
+// Ne-rekurzivna funkcija za ispis podnizova riječi.
+function nerek( rijec )
+{
+	var N = 1 << rijec.length;
+	for( var i = 0; i < N; ++i )
+	{
+		var podniz = '';
+		for( var j = 0; j < rijec.length; ++j )
+			if( i & (1<<j) )
+				podniz += rijec[j];
+
+		document.write( podniz + ' ' );
+	}
+}
+
+document.write( "<h1>Podnizovi riječi " + rijec + ":</h1>" );
+rek( 0, "" );
+
+document.write( '<h1>A sad, bez rekurzije:</h1>' );
+nerek( rijec );
+	</script>
+
+
+
+</body>
+</html>

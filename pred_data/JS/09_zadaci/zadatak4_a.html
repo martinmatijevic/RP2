@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8" />
+    <title>Zadatak 4 - Jednostavnija varijanta</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+
+<input type="text" id="prvi" />
+<input type="text" id="drugi" />
+<button id="bp">+</button><button id="bm">-</button><button id="bx">*</button><button id="bd">/</button>
+<input type="text" id="rez" />
+
+<script>
+$( document ).ready( function() {
+	$( "#bp" ).on( "click", zbroji );
+	$( "#bm" ).on( "click", oduzmi );
+	$( "#bx" ).on( "click", mnozi );
+	$( "#bd" ).on( "click", dijeli );
+} );
+
+function zbroji() { var prvi = Number($("#prvi").val()), drugi = Number($("#drugi").val()); $("#rez").val(prvi+drugi); }
+function oduzmi() { var prvi = Number($("#prvi").val()), drugi = Number($("#drugi").val()); $("#rez").val(prvi-drugi); }
+function mnozi() { var prvi = Number($("#prvi").val()), drugi = Number($("#drugi").val()); $("#rez").val(prvi*drugi); }
+function dijeli() { var prvi = Number($("#prvi").val()), drugi = Number($("#drugi").val()); $("#rez").val(prvi/drugi); }
+
+</script>
+
+</body>
+</html>

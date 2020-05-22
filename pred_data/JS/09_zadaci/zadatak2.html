@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8" />
+    <title>Zadatak 2</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+    <ul class="zivotinja">
+        <li>Pas</li>
+        <li>Mačka</li>
+        <li class="velika">Žirafa</li>
+    </ul>
+    <ul>
+        <li>Stol</li>
+        <li>Olovka</li>
+    </ul>
+    <ul class="zivotinja">
+        <li class="velika">Slon</li>
+        <li>Mrav</li>
+    </ul>
+
+    <script>
+        // Dohvatimo jQuery objekt koji sadrži sve elemente tipa li koji su unutar nekog ul-a klase zivotinja
+        var lis = $( "ul.zivotinja li" );
+        var brojZivotinja = lis.length;
+
+        // Stvori novi ul za popis svih životinja
+        var popis = $( "<ul>" );
+
+        for( var i = 0; i < lis.length; ++i ) 
+        {
+            // Dohvatimo JQuery objekt koji sadrži i-ti li unutar ul-a
+            var zivotinja = lis.eq( i );
+            console.log( "Hello, " + zivotinja.html() );
+            
+            popis.append( "<li>" + zivotinja.html() + "</li>" );
+            // Može i:
+            // popis.append( zivotinja.clone() );
+        }
+
+        console.log( "Ukupno ima " + brojZivotinja + " životinja." );
+
+        // Dohvatimo sve životinje koje imaju klasu "velika" i postavimo im font-size na 24pt.
+        $( "ul li.velika" ).css( "font-size", "24pt" );
+
+        // Dodamo popis svih zivotinja na kraj body-a.
+        $( "body" ).append( "<h1>Popis svih životinja:</h1>" ).append( popis );
+
+        // Dodamo uskličnik iza svakog imena životinje.
+        lis.append( "!" );
+    </script>
+</body>
+</html>    

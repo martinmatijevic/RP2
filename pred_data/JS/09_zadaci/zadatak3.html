@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8" />
+    <title>Zadatak 3</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+    <img src="zadatak3.png" id="slika" />
+
+    <script>
+        // Spremi originalnu veličinu slike negdje
+        var orig_H = $( "#slika" ).height();
+        var orig_W = $( "#slika" ).width();
+        
+        // Da li sliku povecavamo ili smanjujemo
+        var smjer = "povecaj";
+
+        function resizeFig() 
+        {
+            // Dohvati sliku
+            var img = $( "#slika" ), H = img.height(), W = img.width();
+
+            // Da li treba promijeniti smjer?
+            if( smjer === "povecaj" && H === 2*orig_H )
+                smjer = "smanji";
+            else if( smjer === "smanji" && H === orig_H )
+                smjer = "povecaj";
+
+            if( smjer === "povecaj" )
+                img.height( H+1 ), img.width( W+1 );
+            else
+                img.height( H-1 ), img.width( W-1 );
+        }
+
+        setInterval( resizeFig, 10 );
+    </script>
+</body>
+</html>    

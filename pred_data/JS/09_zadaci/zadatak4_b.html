@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8" />
+    <title>Zadatak 4 - Kompliciranija varijanta</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+
+<input type="text" disabled id="txt" />
+<br />
+
+<button id="b7">7</button><button id="b8">8</button><button id="b9">9</button><button id="bp">+</button>
+<br />
+
+<button id="b4">4</button><button id="b5">5</button><button id="b6">6</button><button id="bm">-</button>
+<br />
+
+<button id="b1">1</button><button id="b2">2</button><button id="b3">3</button><button id="bx">*</button>
+<br />
+
+<button id="b0">0</button><button id="bj">=</button><button id="bC">C</button><button id="bd">/</button>
+
+<script>
+$( document ).ready( function() {
+	// Više CSS svojstava odjednom možemo postaviti ovako:
+	$( "#txt" ).css( { "width": "197px", "height": "50px", "text-align": "right" } ).val( "0" );
+	
+	// Svi buttoni imaju istu funkciju koja reagira na klik.
+	$( "button" ).css( { "width": "50px", "height": "50px" } ).on( "click", handle );
+} );
+
+var rez = 0, novi = 0, op = "p";
+
+function handle()
+{
+	var btn = $(this), koji = btn.attr( "id" )[1];
+
+	// Otkrij na koji gumb je kliknuto -- to je znak na indexu 1 u atributu id od btn-a.
+	if( koji === "j" || koji === "p" || koji === "m" || koji === "x" || koji === "d"  )
+	{
+		if( op === "p" )
+			rez += novi;
+		else if( op === "m" )
+			rez -= novi;
+		else if( op === "x" )
+			rez *= novi;
+		else if( op === "d" )
+			rez /= novi;
+
+		$("#txt").val( rez );
+		novi = 0;
+		op = koji;
+	}
+	else if( koji === "C" )
+		rez = novi = 0, $("#txt").val( "0" );
+	else
+	{
+		novi = 10*novi + Number( koji );
+		$("#txt").val( novi );
+	}
+}
+</script>
+
+</body>
+</html>

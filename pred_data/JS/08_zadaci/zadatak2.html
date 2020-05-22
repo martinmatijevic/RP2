@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Zadatak 2</title>
+	<style>table, td, th { border: solid 1px black; border-collapse: collapse; padding: 5px; text-align: center; }</style>
+</head>
+<body>
+	<h1>Ispis tablice množenja:</h1>
+
+	<script>
+var N = prompt( "Koliki će biti N?" );
+N = Number( N ); // Ili: N = parseInt( N );
+	</script>
+
+<table>
+	<tr>
+		<th></th>
+
+	<script>
+// Prvi red u kojem piše header tablice
+for( var c = 1; c <= N; ++c )
+	document.write( "<th>" + c + "</th>" );
+
+document.write( '</tr>' );
+
+for( var r = 1; r <= N; ++r )
+{
+	document.write( "<tr><th>" + r + "</th>" );
+
+	for( var c = 1; c <= N; ++c )
+		document.write( '<td>' + r*c + '</td>' );
+
+	document.write( "</tr>" );
+}
+	</script>
+
+</table>
+
+</body>
+</html>

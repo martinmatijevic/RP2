@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8" />
+    <title>Zadatak 1</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+    <p>Prvi paragraf teksta</p>
+    <p>Drugi paragraf teksta, crveno će biti.</p>
+    <p>Treći paragraf teksta, opet je običan.</p>
+    <p>Četvrti paragraf teksta, sad je žuto.</p>
+    <p>Peti paragraf teksta, i žuto i crveno.</p>
+
+<script>
+// Dohvati kolekciju svih paragrafa.
+var p = $("p");
+
+// Regularni izrazi koji nalaze odgovarajući tekst.
+var crveno = /crveno/, zuto = /žuto/;
+
+// Iteriraj po svim paragrafima
+for( var i = 0; i < p.length; ++i )
+{
+    // i-ti paragraf je p.eq(i) 
+    // Da li on sadrži u svom html kodu riječ crveno?
+    if( crveno.test( p.eq(i).html() ) )
+        p.eq(i).css( "color", "red" );
+
+    // Da li i-ti paragraf sadrži u html kodu riječ žuto?
+    if( zuto.test( p.eq(i).html() ) )
+        p.eq(i).css( "background-color", "yellow" );
+}
+
+</script>
+
+</body>
+</html>    
