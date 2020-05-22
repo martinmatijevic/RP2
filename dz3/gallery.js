@@ -1,75 +1,93 @@
-$(document).ready(function()
-{
-  var divSvi = $('div.gallery');
-  $('img').hide();
-  $('p').hide();
-  for (var i=0; i<divSvi.length; ++i){
-    var divSadrzaj = divSvi.eq(i);
-    var djeca = divSadrzaj.children();
-    var j = 0;
-    var slike = djeca.siblings('img');
-    var paragrafi = djeca.siblings('p');
-    var opisIgumb = $('<p>');
-    opisIgumb.append(divSadrzaj.attr('title')+'.</p><button type="button" id="galerija_gumb">Pogledaj galeriju!</button>');
-    divSadrzaj.append(opisIgumb);
-    var novidiv = $('<div>');
-    novidiv.css({
-        position: 'absolute',
-        top: '20%',
-        bottom: '20%',
-        left: '20%',
-        right: '20%',
-        width: '60%',
-        height: '60%',
-        backgroundColor: 'gray'
-      });
-    novidiv.append('<button type="button" id="izlaz" value="X">x</button>');
-    novidiv.append('<button type="button" id="lijevo"><<</button>');
-    novidiv.append('<button type="button" id="desno">>></button>');
-    while (j<djeca.length/2){
-      var slika = slike.eq(j);
-      $(slika).css({
-        position: 'absolute',
-        top: '5%',
-        left: '5%',
-        maxWidth: '90%',
-        maxHeight: '80%'
-      });
-      $(slika).show();
-      novidiv.append(slika);
-      novidiv.append('<p id=tekst_ispod_slike>Slika ' + (j+1) + '/' + slike.length + '.');
-      j++;
-    }
-  };
-  $('body').append(novidiv);
-  novidiv.hide();
-  $('#galerija_gumb').click(function(){
-    novidiv.show();
-    $('#izlaz').css({
+function divLijevoGumbKlik(){};
+function divDesnoGumbKlik(){};
+function divIzlazGumbKlik(){};
+function onGalleryButtonClick(hello){
+  var noviDiv = $('<div>');
+  console.log('hi');
+  console.log(hello);
+  noviDiv.css({
+      position: 'absolute',
+      top: '10%',
+      bottom: '10%',
+      left: '10%',
+      right: '10%',
+      width: '80%',
+      height: '80%',
+      backgroundColor: 'gray'
+    });
+  var divIzlazGumb = $('<button/>')
+    .text('x')
+    .attr('id','izlaz')
+    .click(divIzlazGumbKlik)
+    .css({
       backgroundColor: 'red',
       fontSize: '200%',
       position: 'absolute',
       top: '0%',
       right: '0%'
     });
-    $('#lijevo').css({
+  var divLijevoGumb = $('<button/>')
+    .text('<<')
+    .attr('id','lijevo')
+    .click(divLijevoGumbKlik)
+    .css({
       fontSize: '200%',
       position: 'absolute',
       bottom: '5%',
       left: '5%'
     });
-    $('#desno').css({
+  var divDesnoGumb = $('<button/>')
+    .text('>>')
+    .attr('id','desno')
+    .click(divDesnoGumbKlik)
+    .css({
       fontSize: '200%',
       position: 'absolute',
       bottom: '5%',
       right: '5%'
     });
-    $('#tekst_ispod_slike').css({
+  var divOpisParagraf = $('<p>')
+    .css({
       textAlign: 'center',
       horizontalAlign: 'middle'
     });
-  })
+  noviDiv.append(divDesnoGumb).append(divIzlazGumb).append(divLijevoGumb).append(divOpisParagraf);
   $('#izlaz').click(function(){
-    novidiv.hide();
-  })
+    noviDiv.hide();
+  });
+  $('body').append(noviDiv);
+}
+
+
+
+$(document).ready(function()
+{
+  var divSvi = $('div.gallery');
+  $('div.gallery img').hide();
+  $('div.gallery p').hide();
+  var sveSlike = [];
+  for (var i=0; i<divSvi.length; ++i){
+    var divSadrzaj = divSvi.eq(i);
+    var slike = [];
+    var divSlike = divSadrzaj.children('img');
+    var divParagrafi = divSadrzaj.children('p');
+    for (var j=0; j<divSlike.length; ++j){
+      var src = divSlike.eq(j).attr('src');
+      var par = $( 'p[data-target="' + src + '"]' ).html();
+      slike.push({
+        img: src,
+        opis: par
+      })
+    }
+    var naslov = divSadrzaj.attr('title');
+    sveSlike.push({
+      naslov: naslov,
+      slike: slike
+    });
+    var galerijaNaslov = $('<p>').text(naslov);
+    var galerijaGumb = $('<button/>')
+    .text('Pogledaj galeriju!')
+    .on('click', function(){onGalleryButtonClick(slike)});
+    divSadrzaj.append(galerijaNaslov).append(galerijaGumb);
+  }
 });
