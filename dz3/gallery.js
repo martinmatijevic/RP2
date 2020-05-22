@@ -1,18 +1,19 @@
 $(document).ready(function()
 {
-  var svi_div = $('div.gallery');
+  var divSvi = $('div.gallery');
   $('img').hide();
   $('p').hide();
-  for (var i=0; i<svi_div.length; ++i){
-    var div_sadrzaj = svi_div.eq(i);
-    var popis = $('<p>');
-    popis.append(div_sadrzaj.attr('title')+'.</p><button type="button" id="galerija_gumb">Pogledaj galeriju!</button>');
-    div_sadrzaj.append(popis);
-    console.log(div_sadrzaj);
-    for (var j=0; j<div_sadrzaj.length; ++j){
-      var slike;
-      var novidiv = $('<div>');
-      novidiv.css({
+  for (var i=0; i<divSvi.length; ++i){
+    var divSadrzaj = divSvi.eq(i);
+    var djeca = divSadrzaj.children();
+    var j = 0;
+    var slike = djeca.siblings('img');
+    var paragrafi = djeca.siblings('p');
+    var opisIgumb = $('<p>');
+    opisIgumb.append(divSadrzaj.attr('title')+'.</p><button type="button" id="galerija_gumb">Pogledaj galeriju!</button>');
+    divSadrzaj.append(opisIgumb);
+    var novidiv = $('<div>');
+    novidiv.css({
         position: 'absolute',
         top: '20%',
         bottom: '20%',
@@ -22,15 +23,23 @@ $(document).ready(function()
         height: '60%',
         backgroundColor: 'gray'
       });
-      novidiv.append('<button type="button" id="izlaz" value="X">X</button>');
-      novidiv.append('<button type="button" id="lijevo"><<</button>');
-      var nj = j+1;
-      novidiv.append('<p id=tekst_ispod_slike>Slika ' + nj + '/' + div_sadrzaj.length + '.<br>33');
-
-
-      //if ('p'.attr('data-target')==="onofrio.jpg") $('img').show();
-      novidiv.append('<button type="button" id="desno">>></button>');
-    };
+    novidiv.append('<button type="button" id="izlaz" value="X">x</button>');
+    novidiv.append('<button type="button" id="lijevo"><<</button>');
+    novidiv.append('<button type="button" id="desno">>></button>');
+    while (j<djeca.length/2){
+      var slika = slike.eq(j);
+      $(slika).css({
+        position: 'absolute',
+        top: '5%',
+        left: '5%',
+        maxWidth: '90%',
+        maxHeight: '80%'
+      });
+      $(slika).show();
+      novidiv.append(slika);
+      novidiv.append('<p id=tekst_ispod_slike>Slika ' + (j+1) + '/' + slike.length + '.');
+      j++;
+    }
   };
   $('body').append(novidiv);
   novidiv.hide();
