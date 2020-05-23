@@ -1,11 +1,46 @@
-function divLijevoGumbKlik(){};
-function divDesnoGumbKlik(){};
-function divIzlazGumbKlik(){};
-function onGalleryButtonClick(hello){
+var index = 0;
+
+function divIzlazGumbKlik(){
+  $('#gallery').remove();
+}
+
+function postaviSliku(slika, ukupno){
+  var trenutniDiv = $('#gallery');
+  trenutniDiv.children('img').remove();
+  trenutniDiv.children('p').remove();
+  var divSlika = $('<img>')
+      .attr('src', slika.img)
+      .css({
+        marginTop: '2%',
+        maxWidth: '80%',
+        maxHeight: '80%'
+      });
+  var divOpis1Paragraf = $('<p>')
+    .text(slika.opis)
+    .css({
+      padding: '0',
+      margin: '0'
+    });
+  var divOpis2Paragraf = $('<p>')
+    .text("Slika " + (slika.indeks+1) + "/" + ukupno + ".")
+    .css({
+      padding: '0',
+      margin: '0'
+    });
+  if ((index+1)>=ukupno) trenutniDiv.find('#desno').css({backgroundColor: 'white'})
+    else trenutniDiv.find('#desno').css({backgroundColor: 'green'});
+  if ((index-1)<0) trenutniDiv.find('#lijevo').css({backgroundColor: 'white'})
+    else trenutniDiv.find('#lijevo').css({backgroundColor: 'green'});
+  trenutniDiv.append(divSlika).append(divOpis1Paragraf).append(divOpis2Paragraf);
+}
+
+function otvoriGaleriju(slike){
+  index = 0;
+  if ($('#gallery')!==undefined) $('#gallery').remove();
   var noviDiv = $('<div>');
-  console.log('hi');
-  console.log(hello);
+  noviDiv.attr('id','gallery');
   noviDiv.css({
+      textAlign: 'center',
       position: 'absolute',
       top: '10%',
       bottom: '10%',
@@ -18,76 +53,83 @@ function onGalleryButtonClick(hello){
   var divIzlazGumb = $('<button/>')
     .text('x')
     .attr('id','izlaz')
-    .click(divIzlazGumbKlik)
     .css({
       backgroundColor: 'red',
       fontSize: '200%',
       position: 'absolute',
       top: '0%',
       right: '0%'
-    });
+    })
+    .click(() => divIzlazGumbKlik());
   var divLijevoGumb = $('<button/>')
     .text('<<')
     .attr('id','lijevo')
-    .click(divLijevoGumbKlik)
     .css({
       fontSize: '200%',
       position: 'absolute',
       bottom: '5%',
       left: '5%'
-    });
+    })
+    .click(
+      (function (slike) {
+        return function () {
+          if (index-1>=0) postaviSliku(slike[--index], slike.length);
+        };
+      })(slike)
+    );
   var divDesnoGumb = $('<button/>')
     .text('>>')
     .attr('id','desno')
-    .click(divDesnoGumbKlik)
     .css({
       fontSize: '200%',
       position: 'absolute',
       bottom: '5%',
       right: '5%'
-    });
-  var divOpisParagraf = $('<p>')
-    .css({
-      textAlign: 'center',
-      horizontalAlign: 'middle'
-    });
-  noviDiv.append(divDesnoGumb).append(divIzlazGumb).append(divLijevoGumb).append(divOpisParagraf);
-  $('#izlaz').click(function(){
-    noviDiv.hide();
-  });
+    })
+    .click(
+      (function (slike) {
+        return function () {
+          if (index+1<slike.length) postaviSliku(slike[++index], slike.length);
+        };
+      })(slike)
+    );
+  noviDiv.append(divDesnoGumb).append(divLijevoGumb).append(divIzlazGumb);
   $('body').append(noviDiv);
+  postaviSliku(slike[index], slike.length);
 }
-
-
 
 $(document).ready(function()
 {
   var divSvi = $('div.gallery');
   $('div.gallery img').hide();
   $('div.gallery p').hide();
-  var sveSlike = [];
   for (var i=0; i<divSvi.length; ++i){
     var divSadrzaj = divSvi.eq(i);
     var slike = [];
     var divSlike = divSadrzaj.children('img');
     var divParagrafi = divSadrzaj.children('p');
+    var k = 0;
     for (var j=0; j<divSlike.length; ++j){
       var src = divSlike.eq(j).attr('src');
-      var par = $( 'p[data-target="' + src + '"]' ).html();
-      slike.push({
-        img: src,
-        opis: par
-      })
+      var par = divSadrzaj.children('p[data-target="' + src + '"]').html();
+      if (src && par)
+        slike.push({
+          img: src,
+          opis: par,
+          indeks: k++
+        })
     }
     var naslov = divSadrzaj.attr('title');
-    sveSlike.push({
-      naslov: naslov,
-      slike: slike
-    });
     var galerijaNaslov = $('<p>').text(naslov);
     var galerijaGumb = $('<button/>')
-    .text('Pogledaj galeriju!')
-    .on('click', function(){onGalleryButtonClick(slike)});
+      .text('Pogledaj galeriju!')
+      .click(
+        (function (slike) {
+          return function () {
+            otvoriGaleriju(slike);
+          };
+        })(slike)
+      );
     divSadrzaj.append(galerijaNaslov).append(galerijaGumb);
   }
 });
