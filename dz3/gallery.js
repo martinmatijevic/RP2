@@ -6,15 +6,24 @@ function divIzlazGumbKlik(){
 
 function postaviSliku(slika, ukupno){
   var trenutniDiv = $('#gallery');
-  trenutniDiv.children('img').remove();
+  $('#slika').remove();
   trenutniDiv.children('p').remove();
+  var ratio = slika.nw/slika.nh;
+  var divKontejner = $('<div>')
+          .attr('id', 'slika')
+		  .css({
+			margin: 'auto',
+			marginTop: '1%',
+			width: '90%',
+			height: '87%'});
   var divSlika = $('<img>')
-      .attr('src', slika.img)
-      .css({
-        marginTop: '2%',
-        maxWidth: '80%',
-        maxHeight: '80%'
-      });
+		  .attr('src', slika.img)
+		  .css({
+			maxWidth: '100%',
+			maxHeight: '100%'
+		  });
+  if (ratio>1) divSlika.css('height', '100%')
+  else divSlika.css('width', '100%');
   var divOpis1Paragraf = $('<p>')
     .text(slika.opis)
     .css({
@@ -31,7 +40,8 @@ function postaviSliku(slika, ukupno){
     else trenutniDiv.find('#desno').css({backgroundColor: 'green'});
   if ((index-1)<0) trenutniDiv.find('#lijevo').css({backgroundColor: 'white'})
     else trenutniDiv.find('#lijevo').css({backgroundColor: 'green'});
-  trenutniDiv.append(divSlika).append(divOpis1Paragraf).append(divOpis2Paragraf);
+  divKontejner.append(divSlika);
+  trenutniDiv.append(divKontejner).append(divOpis1Paragraf).append(divOpis2Paragraf);
 }
 
 function otvoriGaleriju(slike){
@@ -112,10 +122,14 @@ $(document).ready(function()
     for (var j=0; j<divSlike.length; ++j){
       var src = divSlike.eq(j).attr('src');
       var par = divSadrzaj.children('p[data-target="' + src + '"]').html();
+	  var nh = divSlike.eq(j).prop('naturalHeight');
+	  var nw = divSlike.eq(j).prop('naturalWidth');
       if (src && par)
         slike.push({
           img: src,
           opis: par,
+		  nw: nw,
+		  nh: nh,
           indeks: k++
         })
     }
