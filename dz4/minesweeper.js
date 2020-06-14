@@ -9,13 +9,13 @@ $(document).ready(function(){
     $("#canvas").mousedown(function(event){
         if(event.which == 1){
             button="left";
-            check(event);
             movesCounter++;
+            check(event);
         }
         if(event.which == 3){
             button="right";
-            check(event);
             movesCounter++;
+            check(event);
         }
     });
 });
@@ -27,7 +27,6 @@ function initialize(){
     var maxMines = tmpnRows*tmpnCols;
     if(tmpnRows<1||tmpnCols<1||tmpnMines<0||tmpnRows>20||tmpnCols>20||tmpnMines>maxMines){
         $("#error").html("Nedopušteni parametri!");
-        gameEnded = true;
         return;
     }
     else {
@@ -40,7 +39,7 @@ function initialize(){
         gameEnded = false;
         questionMarkCounter = 0;
         nonHiddenTiles = 0;
-        tile=[];
+        tile = [];
         $("#error").html("");
         $("#gameStatus1").html("");
         $("#gameStatus2").html("");
@@ -67,9 +66,8 @@ function initialize(){
                 id = data.id;
                 var canvasContext = $("#canvas").get(0).getContext("2d");
                 for(var i = 0; i < nCols; ++i)
-                    for(var j = 0; j < nRows; ++j)
-                    {
-                        canvasContext.fillStyle = "#36f";
+                    for(var j = 0; j < nRows; ++j){
+                        canvasContext.fillStyle = "#3366ff";
                         canvasContext.fillRect(i*50, j*50, 50, 50);
                         canvasContext.strokeRect(i*50, j*50, 50, 50);
                     }
@@ -86,7 +84,6 @@ function check(event)
     if(gameEnded === true) return;
     if(nonHiddenTiles === (nRows*nCols-nMines) && questionMarkCounter === nMines) return;
     var canvas = $("#canvas").get(0);
-    var canvasContext = canvas.getContext("2d");
     var rectangle = canvas.getBoundingClientRect();
     var x = event.clientX - rectangle.left;
     var y = event.clientY - rectangle.top;
@@ -106,11 +103,14 @@ function check(event)
             if(typeof(data.error) !== "undefined")
                 console.log("cekajPoruku :: success :: server javio grešku " + data.error);
             else{
+                var canvasContext = canvas.getContext("2d");
                 if (button==="left"){
                     hitMine = data.boom;
                     if(hitMine === true){
                         $("#gameStatus2").html("Izgubili ste.");
                         gameEnded = true;
+                        revealBoard();
+                        gameStatus();
                         return;
                     }
                     for(var i = 0; i < data.cells.length; i++){
@@ -146,6 +146,7 @@ function check(event)
                         }
                     }
                     gameStatus();
+                    return;
                 };
                 if (button === "right"){
                     mineGuessed = data.boom;
@@ -155,6 +156,7 @@ function check(event)
                         canvasContext.fillStyle = "#3366ff";
                         canvasContext.fillRect(col*50,row*50, 50, 50);
                         canvasContext.strokeRect(col*50, row*50, 50, 50);
+                        gameStatus();
                         return;
                     }
                     else if(mineGuessed === false && tile[row*nCols+col].status === "flagged"){
@@ -163,6 +165,7 @@ function check(event)
                         canvasContext.fillStyle = "#3366ff";
                         canvasContext.fillRect(col*50,row*50, 50, 50);
                         canvasContext.strokeRect(col*50, row*50, 50, 50);
+                        gameStatus();
                         return;
                     }
                     else if(mineGuessed === true && tile[row*nCols+col].status === "hidden"){
@@ -177,6 +180,7 @@ function check(event)
                     canvasContext.fillStyle = "#000000";
                     canvasContext.fillText("?", col*50 + 14, row*50 + 40);
                     gameStatus();
+                    return;
                 };
             }
         },
@@ -187,10 +191,69 @@ function check(event)
 }
 
 function gameStatus(){
-    if (gameEnded === true) return;
     if (nonHiddenTiles === (nRows*nCols-nMines) && questionMarkCounter===nMines){
         $("#gameStatus2").html("Pobjedili ste.");
-        gameEnded=true;
+        gameEnded = true;
     }
-    else($("#gameStatus1").html("Broj poteza: " + movesCounter));
+    $("#gameStatus1").html("Broj poteza: " + movesCounter);
+    return;
+}
+
+function revealBoard(){
+    for(var i = 0; i < nCols; ++i)
+        for(var j = 0; j < nRows; ++j){
+            $.ajax({
+                url:"https://rp2.studenti.math.hr/~zbujanov/dz4/cell.php",
+                type: "GET",
+                data:{
+                    row:j,
+                    col:i,
+                    id:id
+                },
+                dataType: "json",
+                success: function(data){
+                    if(typeof(data.error) !== "undefined")
+                        console.log("cekajPoruku :: success :: server javio grešku " + data.error);
+                    else{
+                        var canvas = $("#canvas").get(0);
+                        var canvasContext = canvas.getContext("2d");
+                        var hitMine = data.boom;
+                        for(var i = 0; i < data.cells.length; i++){
+                            canvasRow = data.cells[i].row;
+                            canvasColumn = data.cells[i].col;
+                            mineNumber = data.cells[i].mines;
+                            if(hitMine === false){
+                                canvasContext.fillStyle = "#ffffff";
+                                canvasContext.fillRect(canvasColumn*50,canvasRow*50, 50, 50);
+                                canvasContext.strokeRect(canvasColumn*50, canvasRow*50, 50, 50);
+                                if(mineNumber !== 0){
+                                    canvasContext.font = "40px Comic Sans MS";
+                                    if(mineNumber === 1)
+                                        canvasContext.fillStyle = "#0066ff";
+                                    else if(mineNumber === 2)
+                                        canvasContext.fillStyle = "#009933";
+                                    else if(mineNumber === 3)
+                                        canvasContext.fillStyle = "#ff3300";
+                                    else if(mineNumber === 4)
+                                        canvasContext.fillStyle = "#0000cc";
+                                    else if(mineNumber === 5)
+                                        canvasContext.fillStyle = "#800000";
+                                    else if(mineNumber === 6)
+                                        canvasContext.fillStyle = "#33cccc";
+                                    else if(mineNumber === 7)
+                                        canvasContext.fillStyle = "#000000";
+                                    else if(mineNumber === 8)
+                                        canvasContext.fillStyle = "#808080";
+                                    canvasContext.fillText(mineNumber, canvasColumn*50 + 14, canvasRow*50 + 40);
+                                }
+                            }
+                        }
+                    };
+                },
+                error: function(xhr, status){
+                    console.log("check :: error :: status = " + status);
+                }
+            });
+        }
+    return;
 }
