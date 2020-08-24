@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Zadatak 9</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
+</head>
+<body>
+	<form action="skripta.php" action="post">
+		Unesite sljedeće podatke:<br />
+		<table>
+			<tr>
+				<td>Ime:</td>
+				<td><input id="txt_ime" name="ime" type="text" /></td>
+				<td><img id="img_ime" /></td>
+			</tr>
+			<tr>
+				<td>Prezime:</td>
+				<td><input id="txt_prezime" name="prezime" type="text" /></td>
+				<td><img id="img_prezime" /></td>
+			</tr>
+			<tr>
+				<td>Broj telefona:</td>
+				<td><input id="txt_tel" name="tel" type="text" /></td>
+				<td><img id="img_tel" /></td>
+			</tr>
+		</table>
+		<button id="btn_submit" type="submit">Pošalji podatke!</button>
+	</form>
+
+	<script>	
+$( document ).ready( function()
+{
+	$( "#txt_ime" ).on( "input", provjeri_ime );
+	$( "#txt_prezime" ).on( "input", provjeri_prezime );
+	$( "#txt_tel" ).on( "input", provjeri_tel );
+
+	// Kad se učita dokument, ručno provjeri sva tri
+	provjeri_ime();
+	provjeri_prezime();
+	provjeri_tel();
+	update_btn_submit( {} );
+} );	
+
+
+provjeri_ime = function()
+{
+	// Ako je ispravan unos imena (između 1 i 20 slova i razmaka, počinje sa slovom)
+	// prikaži kvačicu.
+	var ime = $( "#txt_ime" ).val();
+	var img = $( "#img_ime" );
+
+	if( /^[a-zA-Z][a-zA-Z ]{0,19}$/.test( ime ) )
+	{
+		// ime je OK, prikaži takvu sličicu
+		img.prop( "src", "zadatak9_good.jpg" ).width( 20 ).height( 20 );
+		update_btn_submit( { ime_OK: true } );
+	}
+	else
+	{
+		// ime nije OK, prikaži takvu sličicu
+		img.prop( "src", "zadatak9_bad.jpg" ).width( 20 ).height( 20 );
+		update_btn_submit( { ime_OK: false } );
+	}
+}
+
+
+provjeri_prezime = function()
+{
+	// Ako je ispravan unos prezimena (između 1 i 20 slova i razmaka, počinje sa slovom)
+	// prikaži kvačicu.
+	var prezime = $( "#txt_prezime" ).val();
+	var img = $( "#img_prezime" );
+
+	if( /^[a-zA-Z][a-zA-Z ]{0,19}$/.test( prezime ) )
+	{
+		// prezime je OK, prikaži takvu sličicu
+		img.prop( "src", "zadatak9_good.jpg" ).width( 20 ).height( 20 );
+		update_btn_submit( { prezime_OK: true } );
+	}
+	else
+	{
+		// prezime nije OK, prikaži takvu sličicu
+		img.prop( "src", "zadatak9_bad.jpg" ).width( 20 ).height( 20 );
+		update_btn_submit( { prezime_OK: false } );
+	}
+
+}
+
+
+provjeri_tel = function()
+{
+	// Ako je ispravan unos imena (između 1 i 20 slova i razmaka, počinje sa slovom)
+	// prikaži kvačicu.
+	var tel = $( "#txt_tel" ).val();
+	var img = $( "#img_tel" );
+
+	if( /^[0-9]{3}\/([0-9]-?){6}[0-9]$/.test( tel ) )
+	{
+		// tel je OK, prikaži takvu sličicu
+		img.prop( "src", "zadatak9_good.jpg" ).width( 20 ).height( 20 );
+		update_btn_submit( { tel_OK: true } );
+	}
+	else
+	{
+		// tel nije OK, prikaži takvu sličicu
+		img.prop( "src", "zadatak9_bad.jpg" ).width( 20 ).height( 20 );
+		update_btn_submit( { tel_OK: false } );
+	}
+}
+
+
+update_btn_submit = function( x )
+{
+	// Jedno rješenje je staviti varijable ime_OK, prezime_OK i tel_OK kao globalne
+	// i updateati ih u funkcijama provjeri_ime, provjeri_prezime i provjeri_tel.
+
+	// Ovo je malo elegantnije rješenje -- samo ova funkcija zna za te tri varijable; one ne trebaju biti globalne.
+	// U JS ne postoje klasične statičke varijable unutar funkcija.
+	// Ali funkcije su također i (istoimeni) objekti! Zato radi sljedeći trik.
+	if( typeof( update_btn_submit.ime_OK ) === "undefined" )
+	{
+		update_btn_submit.ime_OK = false;
+		update_btn_submit.prezime_OK = false;
+		update_btn_submit.tel_OK = false;
+	}
+
+	// Provjeri što nam se prenosi u parametru x, ako se uopće prenosi
+	if( typeof( x.ime_OK ) !== "undefined" )
+		update_btn_submit.ime_OK = x.ime_OK;
+
+	if( typeof( x.prezime_OK ) !== "undefined" )
+		update_btn_submit.prezime_OK = x.prezime_OK;
+
+	if( typeof( x.tel_OK ) !== "undefined" )
+		update_btn_submit.tel_OK = x.tel_OK;
+
+	if( update_btn_submit.ime_OK && update_btn_submit.prezime_OK && update_btn_submit.tel_OK )
+		$( "#btn_submit" ).prop( "disabled", "" );
+	else
+		$( "#btn_submit" ).prop( "disabled", "disabled" );
+}
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>Zadatak 13(b) - Osnovna implementacija</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
+    <style>
+    	body { font-family: Verdana; }
+
+    	#xo td
+    	{
+    		padding: 5px;
+    		height: 25px;
+    		width: 25px;
+    		text-align: center;
+    		vertical-align: middle;
+    		background-color: #ccc;
+    		border: 1px solid #aaa;
+    	}
+    </style>
+</head>
+
+<body>
+	<h2>Na redu je: <span id="span_naRedu"></span></h2>
+	<table id="xo">
+		<tr>
+			<td id="td_0_0"></td>
+			<td id="td_0_1"></td>
+			<td id="td_0_2"></td>
+		</tr>
+		<tr>
+			<td id="td_1_0"></td>
+			<td id="td_1_1"></td>
+			<td id="td_1_2"></td>
+		</tr>
+		<tr>
+			<td id="td_2_0"></td>
+			<td id="td_2_1"></td>
+			<td id="td_2_2"></td>
+		</tr>
+	</table>
+
+	<script>
+var naRedu = null;
+var ploca = null;
+
+$( document ).ready( function()
+{
+	// Inicijaliziraj ploču.
+	ploca = [];
+	for( var r = 0; r < 3; ++r )
+	{
+		ploca[r] = [];
+		for( var c = 0; c < 3; ++c )
+			ploca[r][c] = "?";
+	}
+
+	naRedu = "x";
+	$( "#span_naRedu" ).html( naRedu );
+
+	// Ako kliknemo na polje u ćeliji, pozovi funkciju klik.
+	$( "#xo td" ).on( "click", klik );
+} );
+
+
+klik = function()
+{
+	// Otkrij na kog je kliknuto.
+	// this = HTML objekt td na kojeg je kliknuto.
+	// $( this ) = napravi jQuery objekt od tog td-a.
+	// $( this ).prop( "id" ) = dohvati id od tog td-a. Id je string oblika "id_r_c", gdje je r red, a c stupac.
+	// $( this ).prop( "id" ).split( "_" ) = napravi od tog stringa polje arr, arr[0]="id", arr[1]="r", arr[2]="c"
+	var arr = $( this ).prop( "id" ).split( "_" );
+	var r = Number( arr[1] ), c = Number( arr[2] );
+
+	// Dakle, kliknuto je na ploca[r][c]. 
+	// Nešto treba napraviti samo ako je tamo "?", tj. već ranije nije odigrano.
+	if( ploca[r][c] === "?" )
+	{
+		if( naRedu === "x" )
+		{
+			ploca[r][c] = "x";
+			naRedu = "o";
+		}
+		else
+		{
+			ploca[r][c] = "o";
+			naRedu = "x";
+		}
+
+		$( this ).html( ploca[r][c] );
+		$( "#span_naRedu" ).html( naRedu );
+	}
+
+	jelNetkoPobijedio();
+}
+
+
+jelNetkoPobijedio = function()
+{
+	// Provjeri je li netko pobijedio. Ako je, zaustavi igru.
+	pobijedio = "?";
+
+	for( var r = 0; r < 3; ++r )
+		if( ploca[r][0] !== "?" && ploca[r][0] === ploca[r][1] && ploca[r][0] === ploca[r][2] )
+			pobijedio = ploca[r][0];
+
+	for( var c = 0; c < 3; ++c )
+		if( ploca[0][c] !== "?" && ploca[0][c] === ploca[1][c] && ploca[0][c] === ploca[2][c] )
+			pobijedio = ploca[0][c];
+
+	if( ploca[0][0] !== "?" && ploca[0][0] === ploca[1][1] && ploca[0][0] === ploca[2][2] )
+		pobijedio = ploca[0][0];
+
+	if( ploca[0][2] !== "?" && ploca[0][2] === ploca[1][1] && ploca[0][2] === ploca[2][0] )
+		pobijedio = ploca[0][2];
+
+	// Da li je sve puno?
+	if( pobijedio === "?" )
+	{
+		var puno = true;
+		for( var r = 0; r < 3; ++r )
+			for( var c = 0; c < 3; ++c )
+				if( ploca[r][c] === "?" )
+					puno = false;
+
+		if( puno )
+			pobijedio = "nerješeno";
+	}
+
+
+	if( pobijedio !== "?" )
+	{
+		if( pobijedio === "nerješeno" )
+			alert( "Igra je završila nerješeno." );
+		else
+			alert( "Pobijedio je " + pobijedio + "!" );
+
+		// Ugasi klikove na preostala polja.
+		$( "#xo td" ).off( "click" );
+	}
+}
+
+	</script>
+</body>
+</html>

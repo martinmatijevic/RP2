@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>Zadatak 3</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>	
+
+    <style>
+     table, td { border: solid 1px black; }
+    </style>
+</head>
+<body>
+	<h1>Vrijednosti dionica</h1>
+	<div id="div-dionice"></div>
+
+	<script>
+$( document ).ready( function()
+{
+	ucitajTablicu( 0 );
+} );
+
+
+ucitajTablicu = function( vrijemeZadnjegPristupa )
+{
+	$.ajax(
+	{
+		url: "zadatak3.php",
+		dataType: "json",
+		data:
+		{
+			vrijemeZadnjegPristupa: vrijemeZadnjegPristupa
+		},
+		success: function( data )
+		{
+			console.log( "ucitajTablicu :: success :: data = " + JSON.stringify( data ) );
+
+			if( typeof( data.error ) === "undefined" )
+			{
+				crtajTablicu( data );
+				ucitajTablicu( data.vrijemeZadnjegPristupa );
+			}
+		},
+		error: function( xhr, status )
+		{
+			console.log( "ucitajTablicu :: error :: status = " + status );
+
+			if( status === "timeout" )
+				ucitajTablicu( vrijemeZadnjegPristupa );
+		}
+	} );
+}
+
+
+crtajTablicu = function( data )
+{
+	var tbl = $( "<table></table>" );
+
+	for( var i = 0; i < data.dionice.length; ++i )
+	{
+		var tr = $( "<tr></tr>" );
+
+		var td_oznaka = $( "<td></td>" ).html( data.dionice[i].oznaka );
+		var td_ime = $( "<td></td>" ).html( data.dionice[i].ime );
+		var td_cijena = $( "<td></td>" ).html( data.dionice[i].cijena );
+
+		tr.append( td_oznaka ).append( td_ime ).append( td_cijena );
+		tbl.append( tr );
+	}
+
+	$( "#div-dionice" ).html( tbl );
+}
+
+	</script>
+
+</body>
+</html>

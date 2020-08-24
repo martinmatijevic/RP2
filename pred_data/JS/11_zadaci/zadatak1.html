@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>Zadatak 1</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+	<input id="txt1" type="text" />
+	<input id="txt2" type="text" />
+	<button id="zbroji">+</button>
+	<button id="oduzmi">-</button>
+	<button id="mnozi">*</button>
+	<button id="dijeli">/</button>
+	<input id="txt3" type="text" />
+
+	<script>
+$( document ).ready( function()
+{
+	$( "button" ).on( "click", rijesi );
+} );
+
+
+rijesi = function()
+{
+	// Na koji gumb je kliknuto?
+	var op = $( this ).prop( "id" );
+
+	// Ajaxom pošalji operande i operator, dohvati rezultat
+	$.ajax(
+	{
+		url: "zadatak1.php",
+		data:
+		{
+			broj1: $( "#txt1" ).val(),
+			broj2: $( "#txt2" ).val(),
+			op: op
+		},
+		dataType: "json",
+		success: function( data )
+		{
+			$( "#txt3" ).val( data.rezultat );
+		}
+	} );
+}
+
+	</script>
+</body>
+</html>

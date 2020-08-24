@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>Zadatak 12</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
+	<style>
+		html { height: 100%; }
+		body { min-height: 100%; }
+	</style>
+</head>
+<body>
+	<script>
+$( document ).ready( function()
+{
+	var img = new Image();
+	img.src = "zadatak12.png";
+
+	$( "body" ).on( "mousemove", function(e)
+	{
+		// Otkrij gdje je miš
+		var x = e.clientX, y = e.clientY;
+
+		// Stvori klona od img. Uoči: img je HTML Image, prvo ga konvertiramo u jQuery.
+		var kursor = $( img ).clone();
+
+		// Umjesto HTML Image, možemo napraviti i ovo:
+		// var kursor = $( "<img></img>" ).prop( "src", "zadatak12.png" );
+
+		kursor.css( 
+		{
+			"position": "absolute",
+			"left": x,
+			"top": y
+		} );
+
+			// Stavi ga u dokument.
+		$( "body" ).append( kursor );
+	} );
+
+} );	
+	</script>
+</body>
+</html>
